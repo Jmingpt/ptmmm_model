@@ -20,6 +20,7 @@ def run():
                        layout="centered", # centered, wide
                        initial_sidebar_state="auto")
     
+    st.write("Download the dataset from here: https://datastudio.google.com/s/uC_cQoV31wE")
     title_col = st.columns((2,2))
     with title_col[0]:
         st.title("MMM Model")
