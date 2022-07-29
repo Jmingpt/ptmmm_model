@@ -17,7 +17,7 @@ if 'fb' not in st.session_state:
 def run():
     st.set_page_config(page_title="PT MMM Model", 
                        page_icon="📈", 
-                       layout="wide", # centered, wide
+                       layout="centered", # centered, wide
                        initial_sidebar_state="auto")
     
     title_col = st.columns((2,2))
