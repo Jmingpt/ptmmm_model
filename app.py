@@ -20,12 +20,13 @@ def run():
                        layout="centered", # centered, wide
                        initial_sidebar_state="auto")
     
-    st.write("Download the dataset from here: https://datastudio.google.com/s/uC_cQoV31wE")
     title_col = st.columns((2,2))
     with title_col[0]:
         st.title("MMM Model")
     with title_col[1]:
         split_ratio = st.number_input("Split Ratio:", min_value=0.19, max_value=0.36, value=0.3, step=0.01)
+        
+    st.write("Download the dataset from here: https://datastudio.google.com/s/uC_cQoV31wE")
     
     uploaded_files = st.file_uploader('Upload your files.', type=['csv'], accept_multiple_files=True)
     if uploaded_files:
