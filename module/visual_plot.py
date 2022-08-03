@@ -14,7 +14,7 @@ def modelPlot(df):
                          textposition='outside'))
     
     fig.update_layout(title="MMM Model",
-                      yaxis_range=[min(y)+int(min(y)/1.5), max(y)+int(max(y)/5)])
+                      yaxis_range=[min(y)+int(min(y)/1.5), max(y)+int(max(y)/1.5)])
     
     # trace0 = go.Bar(x=x, 
     #                 y=y)

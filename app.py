@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from io import StringIO
 
-from module.linearmmm import mix_linear_mmm, ga_linear_mmm, fb_linear_mmm
+from module.linearmmm import revenue_linear_mmm, conversion_linear_mmm
 
 #-------------------------------Initialisation-------------------------------#
 if 'files' not in st.session_state:
@@ -26,7 +26,12 @@ def run():
     with title_col[1]:
         split_ratio = st.number_input("Split Ratio:", min_value=0.19, max_value=0.36, value=0.3, step=0.01)
         
-    st.write("Download the dataset from here: https://datastudio.google.com/s/uC_cQoV31wE")
+    st.caption("Requirements:-")
+    st.caption("1. Make sure Facebook data consists of **Date, Campaign name, Cost, Revenue/Conversions**")
+    st.caption("2. Make sure Google data (Google Analytics/Google Ads) consists of **Date, Channel, Cost, Revenue/Conversions**")
+    st.caption("3. Select targeted value (Revenue/Conversions) format.")
+    
+    tar_val = st.radio("Targeted Value:", ["Revenue", "Conversions"], horizontal=True)
     
     uploaded_files = st.file_uploader('Upload your files.', type=['csv'], accept_multiple_files=True)
     if uploaded_files:
@@ -53,14 +58,11 @@ def run():
                     st.write("Facebook Ads Data:")
                     st.write(df_fb.sample(5))
                     
-        # st.subheader("Mixed MMM Result:")
-        mix_linear_mmm(df_ga, df_fb, split_ratio)
+        if tar_val == "Revenue":
+            revenue_linear_mmm(df_ga, df_fb, split_ratio)
+        elif tar_val == "Conversions":
+            conversion_linear_mmm(df_ga, df_fb, split_ratio)
         
-        # with st.expander('Other MMM Model'):
-        #     st.subheader("GA MMM Result:")
-        #     ga_linear_mmm(df_ga, split_ratio)
-        #     st.subheader("FB MMM Result:")
-        #     fb_linear_mmm(df_fb, split_ratio)
             
 
 if __name__ == "__main__":
