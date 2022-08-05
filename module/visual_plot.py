@@ -1,11 +1,9 @@
-from turtle import title
 import plotly.graph_objects as go
-import streamlit as st
 
 def modelPlot(df):
-    df_plot = df.sort_values('score', ascending=False)
+    df_plot = df.sort_values('contribution', ascending=False)
     x = df_plot['params'].values
-    y = [round(i, 2) for i in df_plot['score'].values]
+    y = [round(i, 2) for i in df_plot['contribution'].values]
     
     fig = go.Figure()
     fig.add_trace(go.Bar(x=x, 
@@ -14,7 +12,7 @@ def modelPlot(df):
                          textposition='outside'))
     
     fig.update_layout(title="MMM Model",
-                      yaxis_range=[min(y)+int(min(y)/1.5), max(y)+int(max(y)/1.5)])
+                      yaxis_range=[min(y)-abs(max(y))/2, max(y)+abs(max(y))/2])
     
     # trace0 = go.Bar(x=x, 
     #                 y=y)

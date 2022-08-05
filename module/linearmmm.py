@@ -28,17 +28,16 @@ def revenue_linear_mmm(df_ga, df_fb, split_ratio):
     df_fb = df_fb.drop(["Campaign name"], axis=1)
     df_fb = df_fb[['Date', 'Channel', 'Cost', 'Revenue']]
 
-    df_ga['Yearweek'] = df_ga['Date'].apply(yearweek)
-    df_fb['Yearweek'] = df_fb['Date'].apply(yearweek)
     df = pd.concat([df_ga, df_fb], ignore_index=True)
+    df = df[df['Channel'] != 'Facebook']
     
-    pivot_tb = pd.pivot_table(df, values='Cost', index=['Yearweek'], columns=['Channel'], aggfunc=np.sum)
-    pivot_df = pivot_tb.reset_index().sort_values('Yearweek', ascending=False).reset_index(drop=True)
-    pivot_df = pivot_df.drop("Facebook", axis=1)
-    pivot_df = pivot_df.fillna(pivot_df.mean())
-    revenue_df = df.groupby('Yearweek')['Revenue'].sum().reset_index().sort_values('Yearweek', ascending=False).reset_index(drop=True)
-    mmm = pd.merge(pivot_df, revenue_df, on='Yearweek', how='left')
-    mmm_df = mmm.set_index('Yearweek')
+    pivot_tb = pd.pivot_table(df, values='Cost', index=['Date'], columns=['Channel'], aggfunc=np.sum)
+    pivot_df = pivot_tb.reset_index().sort_values('Date', ascending=False).reset_index(drop=True)
+    # pivot_df = pivot_df.fillna(pivot_df.mean())
+    pivot_df = pivot_df.fillna(0)
+    revenue_df = df.groupby('Date')['Revenue'].sum().reset_index().sort_values('Date', ascending=False).reset_index(drop=True)
+    mmm = pd.merge(pivot_df, revenue_df, on='Date', how='left')
+    mmm_df = mmm.set_index('Date')
     X = mmm_df.drop(columns=['Revenue'])
     y = mmm_df['Revenue']
     
@@ -62,7 +61,9 @@ def revenue_linear_mmm(df_ga, df_fb, split_ratio):
     coef = []
     for i, j in zip(lr.coef_, X.columns):
         coef.append([i,j])
-    plot_df = pd.DataFrame(coef, columns=['score', 'params'])
+    plot_df = pd.DataFrame(coef, columns=['coef', 'params'])
+    plot_df['mean_input'] = X_test.mean().values
+    plot_df['contribution'] = plot_df['coef']*plot_df['mean_input']
     ga_fig = modelPlot(plot_df)
     st.plotly_chart(ga_fig)
     
@@ -83,20 +84,18 @@ def conversion_linear_mmm(df_ga, df_fb, split_ratio):
     df_fb = df_fb.drop(["Campaign name"], axis=1)
     df_fb = df_fb[['Date', 'Channel', 'Cost', 'Conversions']]
 
-    df_ga['Yearweek'] = df_ga['Date'].apply(yearweek)
-    df_fb['Yearweek'] = df_fb['Date'].apply(yearweek)
     df = pd.concat([df_ga, df_fb], ignore_index=True)
     
-    pivot_tb = pd.pivot_table(df, values='Cost', index=['Yearweek'], columns=['Channel'], aggfunc=np.sum)
-    pivot_df = pivot_tb.reset_index().sort_values('Yearweek', ascending=False).reset_index(drop=True)
+    pivot_tb = pd.pivot_table(df, values='Cost', index=['Date'], columns=['Channel'], aggfunc=np.sum)
+    pivot_df = pivot_tb.reset_index().sort_values('Date', ascending=False).reset_index(drop=True)
     try:
         pivot_df = pivot_df.drop("Facebook", axis=1)
     except:
         pass
-    pivot_df = pivot_df.fillna(pivot_df.mean())
-    revenue_df = df.groupby('Yearweek')['Conversions'].sum().reset_index().sort_values('Yearweek', ascending=False).reset_index(drop=True)
-    mmm = pd.merge(pivot_df, revenue_df, on='Yearweek', how='left')
-    mmm_df = mmm.set_index('Yearweek')
+    pivot_df = pivot_df.fillna(0)
+    revenue_df = df.groupby('Date')['Conversions'].sum().reset_index().sort_values('Date', ascending=False).reset_index(drop=True)
+    mmm = pd.merge(pivot_df, revenue_df, on='Date', how='left')
+    mmm_df = mmm.set_index('Date')
     X = mmm_df.drop(columns=['Conversions'])
     y = mmm_df['Conversions']
     
@@ -120,7 +119,9 @@ def conversion_linear_mmm(df_ga, df_fb, split_ratio):
     coef = []
     for i, j in zip(lr.coef_, X.columns):
         coef.append([i,j])
-    plot_df = pd.DataFrame(coef, columns=['score', 'params'])
+    plot_df = pd.DataFrame(coef, columns=['coef', 'params'])
+    plot_df['mean_input'] = X_test.mean().values
+    plot_df['contribution'] = plot_df['coef']*plot_df['mean_input']
     ga_fig = modelPlot(plot_df)
     st.plotly_chart(ga_fig)
     
