@@ -19,7 +19,7 @@ def pros_rema(campaign):
         return 'Facebook'
 
 
-def revenue_linear_mmm(df_ga, df_fb, split_ratio):
+def channel_revenue(df_ga, df_fb, split_ratio):
     df_ga['Date'] = pd.to_datetime(df_ga['Date'])
     df_fb['Date'] = pd.to_datetime(df_fb['Date'])
     df_ga = df_ga[df_ga['Channel'].notna()]
@@ -75,7 +75,7 @@ def revenue_linear_mmm(df_ga, df_fb, split_ratio):
     with smr_col[2]:
         st.write(f"RMSE: {rmse}")
 
-def conversion_linear_mmm(df_ga, df_fb, split_ratio):
+def channel_conversions(df_ga, df_fb, split_ratio):
     df_ga = df_ga[df_ga['Date'].notna()]
     df_fb = df_fb[df_fb['Date'].notna()]
     df_ga['Date'] = pd.to_datetime(df_ga['Date'])
