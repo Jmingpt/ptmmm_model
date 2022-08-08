@@ -94,6 +94,7 @@ def conversion_linear_mmm(df_ga, df_fb, split_ratio):
     
     pivot_tb = pd.pivot_table(df, values='Cost', index=['Date'], columns=['Channel'], aggfunc=np.sum)
     pivot_df = pivot_tb.reset_index().sort_values('Date', ascending=False).reset_index(drop=True)
+    pivot_df = pivot_df.fillna(0)
     revenue_df = df.groupby('Date')['Conversions'].sum().reset_index().sort_values('Date', ascending=False).reset_index(drop=True)
     mmm = pd.merge(pivot_df, revenue_df, on='Date', how='left')
     mmm_df = mmm.set_index('Date')
