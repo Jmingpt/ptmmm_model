@@ -19,7 +19,7 @@ def run():
                        layout="centered", # centered, wide
                        initial_sidebar_state="auto")
     
-    title_col = st.columns((2,2))
+    title_col = st.columns((3,1))
     with title_col[0]:
         st.title("PT Market Mix Modeling (MMM)")
         
