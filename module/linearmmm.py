@@ -19,17 +19,21 @@ def pros_rema(campaign):
         return 'Remarketing'
     elif 'prospecting' in campaign.lower():
         return 'Prospecting'
+    else:
+        return 'Facebook'
 
 
 def revenue_linear_mmm(df_ga, df_fb, split_ratio):
     df_ga['Date'] = pd.to_datetime(df_ga['Date'])
     df_fb['Date'] = pd.to_datetime(df_fb['Date'])
+    df_ga = df_ga[df_ga['Channel'].notna()]
+    df_ga = df_ga[df_ga['Channel'] != 'Facebook']
     df_fb['Channel'] = df_fb['Campaign name'].apply(pros_rema)
     df_fb = df_fb.drop(["Campaign name"], axis=1)
     df_fb = df_fb[['Date', 'Channel', 'Cost', 'Revenue']]
 
     df = pd.concat([df_ga, df_fb], ignore_index=True)
-    df = df[df['Channel'] != 'Facebook']
+    # df = df[df['Channel'] != 'Facebook']
     
     pivot_tb = pd.pivot_table(df, values='Cost', index=['Date'], columns=['Channel'], aggfunc=np.sum)
     pivot_df = pivot_tb.reset_index().sort_values('Date', ascending=False).reset_index(drop=True)
@@ -80,6 +84,8 @@ def conversion_linear_mmm(df_ga, df_fb, split_ratio):
     df_fb = df_fb[df_fb['Date'].notna()]
     df_ga['Date'] = pd.to_datetime(df_ga['Date'])
     df_fb['Date'] = pd.to_datetime(df_fb['Date'])
+    df_ga = df_ga[df_ga['Channel'].notna()]
+    df_ga = df_ga[df_ga['Channel'] != 'Facebook']
     df_fb['Channel'] = df_fb['Campaign name'].apply(pros_rema)
     df_fb = df_fb.drop(["Campaign name"], axis=1)
     df_fb = df_fb[['Date', 'Channel', 'Cost', 'Conversions']]
@@ -88,11 +94,6 @@ def conversion_linear_mmm(df_ga, df_fb, split_ratio):
     
     pivot_tb = pd.pivot_table(df, values='Cost', index=['Date'], columns=['Channel'], aggfunc=np.sum)
     pivot_df = pivot_tb.reset_index().sort_values('Date', ascending=False).reset_index(drop=True)
-    try:
-        pivot_df = pivot_df.drop("Facebook", axis=1)
-    except:
-        pass
-    pivot_df = pivot_df.fillna(0)
     revenue_df = df.groupby('Date')['Conversions'].sum().reset_index().sort_values('Date', ascending=False).reset_index(drop=True)
     mmm = pd.merge(pivot_df, revenue_df, on='Date', how='left')
     mmm_df = mmm.set_index('Date')
