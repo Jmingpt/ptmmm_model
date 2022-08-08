@@ -15,11 +15,7 @@ def yearweek(dtime):
     return yw
 
 def pros_rema(campaign):
-    if 'remarketing' in campaign.lower():
-        return 'Remarketing'
-    elif 'prospecting' in campaign.lower():
-        return 'Prospecting'
-    else:
+    if campaign:
         return 'Facebook'
 
 

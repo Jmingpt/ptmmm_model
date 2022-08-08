@@ -65,11 +65,11 @@ def run():
         control_col = st.columns((1,1))
         if tar_val == "Revenue":
             with control_col[0]:
-                split_ratio = st.number_input("Data Split Ratio:", min_value=0.14, max_value=0.41, value=0.3, step=0.01)
+                split_ratio = st.number_input("Data Split Ratio:", min_value=0.15, max_value=0.4, value=0.3, step=0.01)
             revenue_linear_mmm(df_ga, df_fb, split_ratio)
         elif tar_val == "Conversions":
             with control_col[0]:
-                split_ratio = st.number_input("Data Split Ratio:", min_value=0.14, max_value=0.41, value=0.3, step=0.01)
+                split_ratio = st.number_input("Data Split Ratio:", min_value=0.15, max_value=0.4, value=0.3, step=0.01)
             conversion_linear_mmm(df_ga, df_fb, split_ratio)
     
     elif len(uploaded_files) == 1:
