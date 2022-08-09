@@ -33,7 +33,7 @@ def run():
         process(uploaded_files, channel_revenue, channel_conversions)
         
     else:
-        st.subheader("🚧 Under Developing. 🚧")
+        st.subheader("🚧 Under Construction 🚧")
 
 
 if __name__ == "__main__":
