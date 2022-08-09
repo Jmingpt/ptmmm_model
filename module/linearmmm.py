@@ -25,7 +25,7 @@ def channel_revenue(df_ga, df_fb, split_ratio):
     df_ga = df_ga[df_ga['Channel'].notna()]
     df_ga = df_ga[df_ga['Channel'] != 'Facebook']
     df_fb['Channel'] = df_fb['Campaign name'].apply(pros_rema)
-    df_fb = df_fb.drop(["Campaign name"], axis=1)
+    df_ga = df_ga[['Date', 'Channel', 'Cost', 'Revenue']]
     df_fb = df_fb[['Date', 'Channel', 'Cost', 'Revenue']]
 
     df = pd.concat([df_ga, df_fb], ignore_index=True)
@@ -65,7 +65,7 @@ def channel_revenue(df_ga, df_fb, split_ratio):
     plot_df['mean_input'] = X_test.mean().values
     plot_df['contribution'] = plot_df['coef']*plot_df['mean_input']
     ga_fig = modelPlot(plot_df)
-    st.plotly_chart(ga_fig)
+    st.plotly_chart(ga_fig, use_container_width=True)
     
     smr_col = st.columns((1,1,1))
     with smr_col[0]:
@@ -83,7 +83,7 @@ def channel_conversions(df_ga, df_fb, split_ratio):
     df_ga = df_ga[df_ga['Channel'].notna()]
     df_ga = df_ga[df_ga['Channel'] != 'Facebook']
     df_fb['Channel'] = df_fb['Campaign name'].apply(pros_rema)
-    df_fb = df_fb.drop(["Campaign name"], axis=1)
+    df_ga = df_ga[['Date', 'Channel', 'Cost', 'Conversions']]
     df_fb = df_fb[['Date', 'Channel', 'Cost', 'Conversions']]
 
     df = pd.concat([df_ga, df_fb], ignore_index=True)

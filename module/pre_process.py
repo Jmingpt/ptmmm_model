@@ -39,16 +39,16 @@ def process(uploaded_files, revenue_mmm, conversions_mmm):
             with control_col[0]:
                 split_ratio = st.number_input(label="Data Split Ratio:", 
                                             min_value=0.15, 
-                                            max_value=0.4, 
-                                            value=0.3, 
+                                            max_value=0.40, 
+                                            value=0.25, 
                                             step=0.01)
             revenue_mmm(df_ga, df_fb, split_ratio)
         elif tar_val == "Conversions":
             with control_col[0]:
                 split_ratio = st.number_input("Data Split Ratio:", 
                                             min_value=0.15, 
-                                            max_value=0.4, 
-                                            value=0.3, 
+                                            max_value=0.40, 
+                                            value=0.25, 
                                             step=0.01)
             conversions_mmm(df_ga, df_fb, split_ratio)
     

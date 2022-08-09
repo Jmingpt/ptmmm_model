@@ -20,9 +20,11 @@ def run():
                        initial_sidebar_state="auto")
     
     st.title("PT Market Mix Modeling (MMM)")
-    st.caption("Requirements:-")
-    st.caption("1. Make sure Facebook data consists of **Date, Campaign name, Cost, Revenue/Conversions**")
-    st.caption("2. Make sure Google data (Google Analytics/Google Ads) consists of **Date, Channel, Cost, Revenue/Conversions**")
+    with st.expander("Requirements:- (Read before using the tool.)", expanded=False):
+        st.caption("1. Only **.csv** file is accepted.")
+        st.caption("2. Make sure Facebook data consists of **_Date, Campaign name, Cost, Revenue/Conversions_.** Please rename the columns before uplaoding.")
+        st.caption("3. Make sure Google data (Google Analytics/Google Ads) consists of **_Date, Channel, Cost, Revenue/Conversions_.** Please rename the columns before uplaoding.")
+        st.caption("4. At least **1 year** data is recommended.")
 
     bdown = st.radio(label="Breakdown Level:-", options=["Channel", "Campaign", "Ad Set", "Ad"], horizontal=True)
     uploaded_files = st.file_uploader('Upload your files.', type=['csv'], accept_multiple_files=True)
