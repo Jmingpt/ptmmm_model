@@ -7,7 +7,7 @@ def process(uploaded_files, revenue_mmm, conversions_mmm):
         with st.expander("Raw Data View:"):
             table_col = st.columns((1,1))
         for f in uploaded_files:
-            if 'ga' in str(f.name):
+            if 'ga' in str(f.name).lower() or 'google' in str(f.name).lower():
                 bytes_data = f.read()
                 s = str(bytes_data, 'utf-8')
                 data = StringIO(s)
@@ -17,7 +17,7 @@ def process(uploaded_files, revenue_mmm, conversions_mmm):
                     st.write("Google Analytics Data:")
                     st.write(df_ga.sample(5))
                 
-            elif 'fb' in str(f.name):
+            elif 'fb' in str(f.name).lower() or 'facebook' in str(f.name).lower():
                 bytes_data = f.read()
                 s = str(bytes_data, 'utf-8')
                 data = StringIO(s)
@@ -38,7 +38,7 @@ def process(uploaded_files, revenue_mmm, conversions_mmm):
         if tar_val == "Revenue":
             with control_col[0]:
                 split_ratio = st.number_input(label="Data Split Ratio:", 
-                                            min_value=0.15, 
+                                            min_value=0.10, 
                                             max_value=0.40, 
                                             value=0.25, 
                                             step=0.01)
@@ -46,7 +46,7 @@ def process(uploaded_files, revenue_mmm, conversions_mmm):
         elif tar_val == "Conversions":
             with control_col[0]:
                 split_ratio = st.number_input("Data Split Ratio:", 
-                                            min_value=0.15, 
+                                            min_value=0.10, 
                                             max_value=0.40, 
                                             value=0.25, 
                                             step=0.01)

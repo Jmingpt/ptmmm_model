@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 from module.pre_process import process
-from module.linearmmm import channel_revenue, channel_conversions
+from module.linearmmm import channel_revenue, channel_conversions, campaign_revenue, campaign_conversions
 
 #-------------------------------Initialisation-------------------------------#
 if 'files' not in st.session_state:
@@ -20,18 +20,21 @@ def run():
                        initial_sidebar_state="auto")
     
     st.title("PT Market Mix Modeling (MMM)")
-    with st.expander("Requirements:- (Read before using the tool.)", expanded=False):
-        st.caption("1. Only **.csv** file is accepted.")
-        st.caption("2. Make sure Facebook data consists of **_Date, Campaign name, Cost, Revenue/Conversions_.** Please rename the columns before uploading.")
-        st.caption("3. Make sure Google data (Google Analytics/Google Ads) consists of **_Date, Channel, Cost, Revenue/Conversions_.** Please rename the columns before uploading.")
-        st.caption("4. Recommended date range: **1 year.**")
+    with st.expander("❗️Requirements:- (Read before using the tool.)", expanded=False):
+        st.caption("1. Only **_.csv_** file is accepted. File name should consist of **'fb'/'Facebook'** or **'ga'/'Google'**")
+        st.caption("2. Make sure Facebook data consists of **_Date, Campaign name, Cost, Revenue/Conversions._** Please rename the columns before uploading.")
+        st.caption("3. Make sure Google data (Google Analytics/Google Ads) consists of **_Date, Channel, Campaign, Cost, Revenue/Conversions._** Please rename the columns before uploading.")
+        st.caption("4. Recommended date range: **_1 year._**")
 
-    bdown = st.radio(label="Breakdown Level:-", options=["Channel", "Campaign", "Ad Set", "Ad"], horizontal=True)
+    bdown = st.radio(label="Breakdown Level:-", options=["Channel", "Campaign", "Ad Set", "Ad Format"], horizontal=True)
     uploaded_files = st.file_uploader('Upload your files.', type=['csv'], accept_multiple_files=True)
     
     if bdown == "Channel":
         process(uploaded_files, channel_revenue, channel_conversions)
         
+    elif bdown == 'Campaign':
+        process(uploaded_files, campaign_revenue, campaign_conversions)
+    
     else:
         st.subheader("🚧 Under Construction 🚧")
 
