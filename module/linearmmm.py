@@ -49,7 +49,7 @@ def fb_adformat(adformat):
     elif 'carousel' in adformat.lower():
         return 'Carousel'
     elif 'catalogue sales' in adformat.lower():
-        return 'Catalogue'
+        return 'Catalogue Sales'
     elif 'slideshow catalogue' in adformat.lower():
         return 'Slideshow Catalogue'
     elif 'catalogue' in adformat.lower():
