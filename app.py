@@ -24,7 +24,7 @@ def run():
     
     with st.expander("❗️Requirements:- (Read before using the tool.)", expanded=False):
         st.caption("1. Only **_.csv_** file is accepted. File name should consist of **'fb'/'Facebook'** or **'ga'/'Google'**")
-        st.caption("2. Make sure Facebook data consists of **_Date, Campaign name, Cost, Revenue/Conversions._** Please rename the columns before uploading.")
+        st.caption("2. Make sure Facebook data consists of **_Date, Campaign name, Ad set name, Ad name, Cost, Revenue/Conversions._** Please rename the columns before uploading.")
         st.caption("3. Make sure Google data (Google Analytics/Google Ads) consists of **_Date, Channel, Campaign, Cost, Revenue/Conversions._** Please rename the columns before uploading.")
         st.caption("4. Recommended date range: **_1 year._**")
 
